@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">QuizApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login__signup_button">Register</string>
+    <string name="login__login_button">Login</string>
+    <string name="passwordRecovery">Forgot Password</string>
 </resources>
