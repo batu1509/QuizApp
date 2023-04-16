@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sample.quizapp.R
 import com.sample.quizapp.databinding.FragmentLoginBinding
 import com.sample.quizapp.presentation.viewmodel.LoginViewModel
 import com.sample.quizapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -24,6 +26,16 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        val navController = findNavController()
+
+        lifecycleScope.launch {
+            viewModel.checkLoggedIn().collect { isLoggedIn ->
+                if (isLoggedIn) {
+                    navController.navigate(R.id.homeFragment)
+                }
+            }
+        }
 
         return binding.root
     }

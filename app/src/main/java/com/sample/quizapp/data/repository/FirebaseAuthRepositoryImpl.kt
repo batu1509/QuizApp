@@ -10,32 +10,34 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseAuth : FirebaseAuth,
     private val dataStoreOperations: DataStoreOperations
 ): AuthRepository {
+
     override suspend fun login(email: String, password: String): String {
         return try {
-            var userUID = ""
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                    userUID = it.user?.uid ?: ""
-                }
                 .await()
-            dataStoreOperations.saveLoginInfo(userUID)
-            userUID
+                .user
+                ?.uid
+                ?.let { userUID ->
+                    dataStoreOperations.saveLoginInfo(userUID)
+                    userUID
+                } ?: ""
         }catch (e:Exception){
             ""
         }
     }
 
-    override suspend fun signUp(email: String, password: String): String {
+    override suspend fun signUp(email: String, password: String, confirmPassword: String): String {
+        if (password != confirmPassword) {
+            throw Exception("Passwords do not match")
+        }
         return try {
-            var userUID = ""
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                    userUID = it.user?.uid ?: ""
-                }
-                .await()
-            userUID
-        } catch (e:Exception){
+            val userCredential = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            userCredential.user?.uid ?: ""
+        } catch (e: Exception) {
             ""
         }
     }
+
+
+
 }

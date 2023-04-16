@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.sample.quizapp.R
 import com.sample.quizapp.databinding.FragmentRegisterBinding
 import com.sample.quizapp.presentation.viewmodel.RegisterViewModel
@@ -35,31 +37,24 @@ class RegisterFragment : Fragment() {
         initListeners()
     }
 
-    private fun initObservers(){
-        viewModel.signUpState.observe(viewLifecycleOwner){state ->
-            when(state){
+    private fun initObservers() {
+        viewModel.signUpState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is Resource.Success -> {
-                    handleLoading(isLoading = false)
-                    activity?.onBackPressed()
-                    Toast.makeText(
-                        requireContext(),
-                        "Sign up success",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    handleLoading(false)
+                    findNavController().popBackStack()
+                    Toast.makeText(requireContext(), "Sign up success", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Error -> {
-                    handleLoading(isLoading = false)
-                    Toast.makeText(
-                        requireContext(),
-                        state.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    handleLoading(false)
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> handleLoading(isLoading = true)
+                is Resource.Loading -> handleLoading(true)
                 else -> Unit
             }
         }
     }
+
 
     private fun initListeners(){
         with(binding){
@@ -67,7 +62,10 @@ class RegisterFragment : Fragment() {
                 handleSignUp()
             }
             bBack.setOnClickListener {
-                activity?.onBackPressed()
+                findNavController().popBackStack()
+            }
+            textView.setOnClickListener {
+                findNavController().popBackStack()
             }
         }
     }
@@ -76,21 +74,16 @@ class RegisterFragment : Fragment() {
     private fun handleSignUp(){
         val email = binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
+        val confirmPassword = binding.editPasswordConfirm.text.toString()
 
-        viewModel.signUp(email, password)
+        viewModel.signUp(email, password, confirmPassword)
     }
 
-    private fun handleLoading(isLoading:Boolean){
-        with(binding){
-            if (isLoading) {
-                signUpButton.text = ""
-                signUpButton.isEnabled = false
-                signUpPb.visibility = View.VISIBLE
-            }else{
-                signUpPb.visibility = View.GONE
-                signUpButton.text = getString(R.string.login__signup_button)
-                signUpButton.isEnabled = true
-            }
+    private fun handleLoading(isLoading: Boolean) {
+        with(binding) {
+            signUpButton.isEnabled = !isLoading
+            signUpPb.isVisible = isLoading
+            signUpButton.text = if (isLoading) "" else getString(R.string.login__signup_button)
         }
     }
 

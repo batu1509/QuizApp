@@ -32,15 +32,12 @@
         tools:layout="@layout/fragment_password_recovery" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sample.quizapp.HomeFragment"
+        android:name="com.sample.quizapp.presentation.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <argument
             android:name="uid"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="false"/>
     </fragment>
-    <argument
-        android:name="uid"
-        app:nullable="false"
-        app:argType="string" />
 </navigation>

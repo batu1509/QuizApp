@@ -1,21 +1,68 @@
 package com.sample.quizapp.presentation.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.sample.quizapp.R
+import com.sample.quizapp.databinding.FragmentHomeBinding
+import com.sample.quizapp.databinding.FragmentLoginBinding
+import com.sample.quizapp.presentation.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var auth: FirebaseAuth
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
+        return binding.root
     }
+
+    private fun logout() = lifecycleScope.launch {
+        auth = FirebaseAuth.getInstance()
+        auth.signOut()
+        viewModel.logoutUser()
+        findNavController().navigate(R.id.loginFragment)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.logout_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logout_menu_item -> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.are_you_sure_log_out)
+                    .setMessage(R.string.log_out_message)
+                    .setPositiveButton(R.string.log_out) { _, _ ->
+                        logout()
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+
+
+
 
 
 }

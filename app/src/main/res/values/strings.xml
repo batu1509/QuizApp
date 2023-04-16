@@ -5,4 +5,8 @@
     <string name="login__signup_button">Register</string>
     <string name="login__login_button">Login</string>
     <string name="passwordRecovery">Forgot Password</string>
+    <string name="are_you_sure_log_out">Are you sure you want to log out?</string>
+    <string name="log_out_message">You cannot access the content after logging out</string>
+    <string name="log_out">Log out</string>
+    <string name="cancel">Cancel</string>
 </resources>
