@@ -10,14 +10,26 @@ import javax.inject.Inject
 
 class FirestoreUserRepositoryImpl @Inject constructor(): UserRepository {
 
+//    override suspend fun createUser(user: User): Boolean {
+//        return try {
+//            val result = FirebaseFirestore.getInstance().collection(USERS_COLLECTION)
+//                .document(user.uid)
+//                .set(user, SetOptions.merge())
+//                .await()
+//            result != null
+//        } catch (e:Exception){
+//            false
+//        }
+//    }
+
     override suspend fun createUser(user: User): Boolean {
         return try {
-            val result = FirebaseFirestore.getInstance().collection(USERS_COLLECTION)
-                .document(user.uid)
-                .set(user, SetOptions.merge())
-                .await()
-            result != null
-        } catch (e:Exception){
+            val db = FirebaseFirestore.getInstance()
+            val usersRef = db.collection("users")
+            val userDocRef = usersRef.document(user.uid)
+            userDocRef.set(user).await()
+            true
+        } catch (e: Exception) {
             false
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -84,17 +85,11 @@ class LoginFragment : Fragment() {
         viewModel.login(email, password)
     }
 
-    private fun handleLoading(isLoading:Boolean){
-        with(binding){
-            if (isLoading) {
-                loginButton.text = ""
-                loginButton.isEnabled = false
-                loginPb.visibility = View.VISIBLE
-            }else{
-                loginPb.visibility = View.GONE
-                loginButton.text = getString(R.string.login__signup_button)
-                loginButton.isEnabled = true
-            }
+    private fun handleLoading(isLoading: Boolean) {
+        binding.apply {
+            loginButton.text = if (isLoading) "" else getString(R.string.login__signup_button)
+            loginButton.isEnabled = !isLoading
+            loginPb.isVisible = isLoading
         }
     }
 }

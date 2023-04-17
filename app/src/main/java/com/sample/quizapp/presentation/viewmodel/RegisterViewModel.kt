@@ -20,13 +20,13 @@ class RegisterViewModel @Inject constructor(private val signUpUseCase: FirebaseS
     val signUpState: LiveData<Resource<Boolean>>
         get() = _signUpState
 
-    fun signUp(email:String, password:String, confirmPassword: String) {
+    fun signUp(email:String, password:String, confirmPassword: String, name: String) {
         if (password != confirmPassword) {
             // Confirm password doesn't match, handle the error
             return
         }
         viewModelScope.launch {
-            signUpUseCase(email, password, confirmPassword).onEach { state ->
+            signUpUseCase(email, password, confirmPassword, name).onEach { state ->
                 _signUpState.value = state
             }.launchIn(viewModelScope)
         }

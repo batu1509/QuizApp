@@ -72,12 +72,18 @@ class RegisterFragment : Fragment() {
 
 
     private fun handleSignUp(){
+        val name = binding.editName.text.toString()
         val email = binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
         val confirmPassword = binding.editPasswordConfirm.text.toString()
 
-        viewModel.signUp(email, password, confirmPassword)
+        if (name.isBlank()) {
+            // Handle name is blank error
+            return
+        }
+        viewModel.signUp(email, password, confirmPassword, name)
     }
+
 
     private fun handleLoading(isLoading: Boolean) {
         with(binding) {
