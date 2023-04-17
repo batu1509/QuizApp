@@ -61,9 +61,6 @@ class RegisterFragment : Fragment() {
             signUpButton.setOnClickListener {
                 handleSignUp()
             }
-            bBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
             textView.setOnClickListener {
                 findNavController().popBackStack()
             }
