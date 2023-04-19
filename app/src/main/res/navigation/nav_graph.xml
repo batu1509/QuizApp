@@ -39,5 +39,30 @@
             android:name="uid"
             app:argType="string"
             app:nullable="false"/>
+        <action
+            android:id="@+id/action_homeFragment_to_quizDetailFragment"
+            app:destination="@id/quizDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.sample.quizapp.presentation.fragment.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quizFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResultFragment"
+        android:name="com.sample.quizapp.presentation.fragment.QuizResultFragment"
+        android:label="fragment_quiz_result"
+        tools:layout="@layout/fragment_quiz_result" />
+    <fragment
+        android:id="@+id/quizDetailFragment"
+        android:name="com.sample.quizapp.presentation.fragment.QuizDetailFragment"
+        android:label="QuizDetailFragment" >
+        <action
+            android:id="@+id/action_quizDetailFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
     </fragment>
 </navigation>
