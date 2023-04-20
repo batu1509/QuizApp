@@ -2,8 +2,6 @@ package com.sample.quizapp.data.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sample.quizapp.data.models.QuizModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

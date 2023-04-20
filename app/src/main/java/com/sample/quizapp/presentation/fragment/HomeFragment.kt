@@ -1,9 +1,15 @@
 package com.sample.quizapp.presentation.fragment
 
+import android.animation.AnimatorInflater
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.view.animation.LinearInterpolator
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -37,27 +43,32 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
-        val quizRecyclerView = binding.root.findViewById<RecyclerView>(R.id.list_view)
+        val quizRecyclerView = binding.listView
         quizAdapter = QuizHomeAdapter(emptyList()) { quiz ->
             // Implement your onQuizClicked method here
         }
         quizRecyclerView.adapter = quizAdapter
         quizRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        FirebaseFirestore.getInstance().collection("QuizList")
-            .get()
-            .addOnSuccessListener { documents ->
-                val quizzes = documents.mapNotNull { doc ->
-                    doc.toObject(QuizModel.UserModel::class.java)
-                }
-                quizAdapter.setQuizzes(quizzes)
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Error occurred: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
+        viewModel.quizzes.observe(viewLifecycleOwner) { quizzes ->
+            quizAdapter.setQuizzes(quizzes)
+            binding.listProgress.visibility = View.GONE
+            binding.listView.visibility = View.VISIBLE
+        }
+
+        viewModel.getQuizzes()
+
+        binding.listProgress.indeterminateDrawable =
+            ContextCompat.getDrawable(requireContext(), R.drawable.progress_indeterminate)
+
+        val anim = ObjectAnimator.ofFloat(binding.listProgress, "rotation", 0f, 360f)
+        anim.duration = 2000
+        anim.repeatCount = ValueAnimator.INFINITE
+        anim.interpolator = LinearInterpolator()
+        anim.start()
 
         return binding.root
-    }
+}
 
     private fun logout() = lifecycleScope.launch {
         auth = FirebaseAuth.getInstance()
@@ -87,10 +98,4 @@ class HomeFragment : Fragment() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
-
-
-
-
-
 }

@@ -1,7 +1,10 @@
 package com.sample.quizapp.data.models
 
+import com.google.firebase.firestore.DocumentId
+
 class QuizModel {
     data class UserModel(
+        @DocumentId
         val quiz_id: String = "",
         val name: String = "",
         val level: String = "",

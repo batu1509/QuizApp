@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
 
     private fun handleLoading(isLoading: Boolean) {
         binding.apply {
-            loginButton.text = if (isLoading) "" else getString(R.string.login__signup_button)
+            loginButton.text = if (isLoading) "" else getString(R.string.login__login_button)
             loginButton.isEnabled = !isLoading
             loginPb.isVisible = isLoading
         }

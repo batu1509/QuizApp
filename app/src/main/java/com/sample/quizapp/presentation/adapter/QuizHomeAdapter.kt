@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sample.quizapp.R
 import com.sample.quizapp.data.models.QuizModel
+import com.sample.quizapp.presentation.fragment.HomeFragmentDirections
 
 class QuizHomeAdapter(
     private var quizzes: List<QuizModel.UserModel>,
@@ -41,14 +45,18 @@ class QuizHomeAdapter(
             itemView.apply {
                 Glide.with(context)
                     .load(quiz.image)
-                    .placeholder(R.drawable.dark_bg)
                     .into(quizImage)
 
                 quizTitle.text = quiz.name
-                quizDesc.text = quiz.desc
                 quizDifficulty.text = quiz.level
-
-                quizBtn.setOnClickListener { onQuizClicked(quiz) }
+                quizDesc.text = if (quiz.desc.length > 150) {
+                    "${quiz.desc.substring(0, 150)}..."
+                } else {
+                    quiz.desc
+                }
+                quizBtn.setOnClickListener {
+                    findNavController().navigate(R.id.action_homeFragment_to_quizDetailFragment, bundleOf("quizId" to quiz.quiz_id))
+                }
             }
         }
     }
