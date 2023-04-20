@@ -76,9 +76,9 @@
                 android:text="@string/login__login_button"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
-                android:background="@drawable/outline_btn_bg"
                 android:backgroundTint="@color/blue"
                 app:cornerRadius = "30dp"
+                android:background="@drawable/blue_pressed"
                 android:layout_marginTop="30dp" />
 
     <ProgressBar
