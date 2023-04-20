@@ -41,7 +41,9 @@
             app:nullable="false"/>
         <action
             android:id="@+id/action_homeFragment_to_quizDetailFragment"
-            app:destination="@id/quizDetailFragment" />
+            app:destination="@id/quizDetailFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/quizFragment"

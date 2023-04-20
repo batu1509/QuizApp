@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/anton"
         android:text="Quiz Title"
         android:textColor="@color/white"
@@ -34,24 +34,26 @@
 
     <TextView
         android:id="@+id/details_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/atma_medium"
+        android:lineHeight="28dp"
         android:text="Quiz Description"
         android:textColor="@color/white_special"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details_title"
-        android:lineHeight="28dp"/>
+        app:layout_constraintTop_toBottomOf="@id/details_title" />
 
     <TextView
         android:id="@+id/details_difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/atma_medium"
         android:text="Difficulty"
         android:textColor="@color/gray"
