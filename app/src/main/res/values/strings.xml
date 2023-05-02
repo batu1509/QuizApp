@@ -9,4 +9,11 @@
     <string name="log_out_message">You cannot access the content after logging out</string>
     <string name="log_out">Log out</string>
     <string name="cancel">Cancel</string>
+    <string name="end_quiz">End Quiz</string>
+    <string name="are_you_sure">Are you sure you want to end the quiz?</string>
+    <string name="positive_button">Yes</string>
+    <string name="negative_button">No</string>
+    <string name="exit_title">Exit</string>
+    <string name="exit_message">exit the application
+</string>
 </resources>

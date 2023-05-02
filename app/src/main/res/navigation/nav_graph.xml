@@ -46,12 +46,12 @@
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
-        android:id="@+id/quizFragment"
-        android:name="com.sample.quizapp.presentation.fragment.QuizFragment"
-        android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quiz" >
+        android:id="@+id/questionsFragment"
+        android:name="com.sample.quizapp.presentation.fragment.QuestionsFragment"
+        android:label="fragment_questions"
+        tools:layout="@layout/fragment_questions" >
         <action
-            android:id="@+id/action_quizFragment_to_quizResultFragment"
+            android:id="@+id/action_questionsFragment_to_quizResultFragment"
             app:destination="@id/quizResultFragment" />
     </fragment>
     <fragment
@@ -64,7 +64,7 @@
         android:name="com.sample.quizapp.presentation.fragment.QuizDetailFragment"
         android:label="QuizDetailFragment" >
         <action
-            android:id="@+id/action_quizDetailFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
+            android:id="@+id/action_quizDetailFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment" />
     </fragment>
 </navigation>

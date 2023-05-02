@@ -1,9 +1,6 @@
 package com.sample.quizapp.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.sample.quizapp.data.models.QuizModel
 import com.sample.quizapp.data.repository.QuizRepository
 import com.sample.quizapp.domain.repository.DataStoreOperations
@@ -38,10 +35,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun logoutUser() {
-        viewModelScope.launch {
-            dataStoreOperations.deleteLoginInfo()
-        }
+    fun logoutUser() = liveData {
+        emit(dataStoreOperations.deleteLoginInfo())
     }
 
 }

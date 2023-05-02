@@ -41,7 +41,7 @@ class QuizDetailFragment : Fragment() {
             binding.detailsQuestionText.text = quiz.questions.toString()
 
             binding.detailsStartBtn.setOnClickListener {
-                findNavController().navigate(R.id.action_quizDetailFragment_to_quizFragment, bundleOf("quizId" to quiz.quiz_id))
+                findNavController().navigate(R.id.action_quizDetailFragment_to_questionsFragment, bundleOf("quizId" to quiz.quiz_id))
             }
         }
     }

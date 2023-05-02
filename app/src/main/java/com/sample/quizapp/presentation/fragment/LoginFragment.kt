@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -90,6 +91,13 @@ class LoginFragment : Fragment() {
             loginButton.text = if (isLoading) "" else getString(R.string.login__login_button)
             loginButton.isEnabled = !isLoading
             loginPb.isVisible = isLoading
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finish()
         }
     }
 }

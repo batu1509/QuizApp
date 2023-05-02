@@ -9,6 +9,7 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -70,11 +71,34 @@ class HomeFragment : Fragment() {
         return binding.root
 }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            AlertDialog.Builder(requireActivity())
+                .setTitle(R.string.exit_title)
+                .setMessage(R.string.exit_message)
+                .setPositiveButton(R.string.positive_button) { _, _ ->
+                    requireActivity().finish()
+                    System.exit(0)
+                }
+                .setNegativeButton(R.string.negative_button, null)
+                .show()
+        }
+    }
+
     private fun logout() = lifecycleScope.launch {
         auth = FirebaseAuth.getInstance()
         auth.signOut()
-        viewModel.logoutUser()
-        findNavController().navigate(R.id.loginFragment)
+        viewModel.logoutUser().observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.loginFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.listView.adapter = null
+        viewModel.quizzes.removeObservers(viewLifecycleOwner)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -99,3 +123,4 @@ class HomeFragment : Fragment() {
         }
     }
 }
+
